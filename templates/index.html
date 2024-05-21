@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Hugging Face API</title>
+    <!-- Style in style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h1>Enter a Sentence</h1>
+    <form method="post" action="/">
+        <textarea name="user_input" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    {% if result %}
+        <h2>Result:</h2>
+
+        <p>{{ result|safe }}</p>
+
+    {% endif %}
+</body>
+</html>
