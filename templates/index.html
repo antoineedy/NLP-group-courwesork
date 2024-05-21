@@ -10,16 +10,25 @@
 
 </head>
 <body>
-    <h1>Enter a Sentence</h1>
+    <i> Antoine, Pavlos & Mingxi present:</i>
+    <h1>The <span class="highlight label-1">AD</span> (<span class="highlight label-2">abbreviation</span> <span class="highlight label-3">detector</span>)</h1>
+
     <form method="post" action="/">
-        <textarea name="user_input" rows="4" cols="50"></textarea><br><br>
-        <input type="submit" value="Submit">
+        <textarea name="user_input" rows="4" cols="50">Time to ART initiation was estimated using cumulative incidence functions (CIFs) : mortality and LTFU were considered competing events to ART initiation.</textarea><br><br>
+        <input class="subb" type="submit" value="Submit">
     </form>
     {% if result %}
-        <h2>Result:</h2>
 
-        <p>{{ result|safe }}</p>
+    <div class="results">
+        <p class="text-result">{{ result|safe }}</p>
+    </div>
 
     {% endif %}
+
+    <div class="legend"><i>Legend:
+    <span class="highlight label-1">Abbreviation</span>
+    <span class="highlight label-2">Beginning of long-form</span>
+    <span class="highlight label-3">Inner long-form</span> </i>
+    </div>
 </body>
 </html>

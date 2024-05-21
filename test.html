@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entities Highlight</title>
+    <style>
+        .highlight {
+            display: inline-block;
+            padding: 2px 4px;
+            margin: 2px 0;
+            position: relative;
+        }
+        .label-1 {
+            background-color: rgba(255, 0, 0, 0.3); /* Light red background */
+        }
+        .label-2 {
+            background-color: rgba(0, 0, 255, 0.3); /* Light blue background */
+        }
+        .label-3 {
+            background-color: rgba(0, 128, 0, 0.3); /* Light green background */
+        }
+        .label-0 {
+            background-color: rgba(255, 255, 0, 0.3); /* Light yellow background */
+        }
+        .score {
+            display: block;
+            font-size: smaller;
+            color: grey;
+            text-align: center;
+            position: absolute;
+            bottom: -1.5em; /* Adjust this value to control the distance of the score from the word */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span class="highlight label-1">imd<span class="score">0.9999621510505676</span></span>
+        <span class="highlight label-0">,<span class="score">0.9999480247497559</span></span>
+        <span class="highlight label-2">index<span class="score">0.9999668598175049</span></span>
+        <span class="highlight label-3">of multiple deprivation<span class="score">0.9999464154243469</span></span>
+        <span class="highlight label-0">, derived from the lower super<span class="score">0.9126124382019043</span></span>
+        <span class="highlight label-3">output<span class="score">0.9652374982833862</span></span>
+        <span class="highlight label-0">area of the patient ' s home address ;<span class="score">0.9871764779090881</span></span>
+        <span class="highlight label-1">iqr<span class="score">0.9999324083328247</span></span>
+    </div>
+</body>
+</html>
