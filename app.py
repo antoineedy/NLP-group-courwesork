@@ -39,10 +39,20 @@ def mypipeline(user_input):
     out = pipe(user_input)
     to_remove = []
     for i, entity in enumerate(out):
-        if entity["word"][:2] == "##":
-            out[i - 1]["end"] = entity["end"]
-            out[i - 1]["word"] += entity["word"][2:]
-            to_remove.append(i)
+        if entity["word"][:2] == "##" and i not in to_remove:
+            odxs = [i]
+            for j in range(i + 1, len(out)):
+                if out[j]["word"][:2] == "##":
+                    odxs.append(j)
+                else:
+                    break
+            out[i - 1]["end"] = out[odxs[-1]]["end"]
+            word = ""
+            for j in odxs[::-1]:
+                word += out[j]["word"][2:]
+                to_remove.append(j)
+            out[i - 1]["word"] += word
+
     for i in sorted(to_remove, reverse=True):
         out.pop(i)
     return out
