@@ -1,6 +1,10 @@
 from flask import Flask, request, render_template
 import requests
 from transformers import pipeline
+import time
+
+from tabulate import tabulate
+
 
 pipe = pipeline(
     "token-classification", model="antoineedy/stanford-deidentifier-base-finetuned-ner"
@@ -11,6 +15,41 @@ app = Flask(__name__)
 HUGGING_FACE_API_URL = "https://api-inference.huggingface.co/models/antoineedy/stanford-deidentifier-base-finetuned-ner"
 
 HUGGING_FACE_API_KEY = "****"
+
+
+def create_logs(result, input):
+
+    to_log = ""
+
+    date = time.strftime("%Y-%m-%d %H:%M:%S")
+    to_log += f"------- {date} -------\n"
+    to_log += f"-> Input: {input}\n"
+    to_log += "-> Output:\n"
+
+    words = []
+    labels = []
+    scores = []
+    for entity in result:
+        label = entity["entity"].split("_")[1]
+        # word = entity["word"]
+        start, end = entity["start"], entity["end"]
+        word = input[start:end]
+        if len(word) == 1:
+            score = ""
+        else:
+            score = str(round(100 * entity["score"], 2)) + "%"
+        words.append(word)
+        labels.append(label)
+        scores.append(score)
+    tomap = ["B-O", "B-AC", "B-LF", "I-LF"]
+    labels = [tomap[int(label)] for label in labels]
+    all = [words, labels, scores]
+    table = tabulate(
+        tabular_data=all, numalign="center", stralign="center", tablefmt="rounded_grid"
+    )
+    to_log += str(table)
+    to_log += "\n\n"
+    return to_log
 
 
 def postprocess_results(result, input):
@@ -32,6 +71,10 @@ def postprocess_results(result, input):
             f'<span class="highlight label-{label}">{word}<span class="score">{score}</span></span>'
             + space
         )
+    logs = create_logs(result, input)
+    # write a new line in log.txt
+    with open("log.txt", "a") as f:
+        f.write(logs)
     return to_return
 
 
@@ -64,10 +107,6 @@ def index():
     to_return = None
     if request.method == "POST":
         user_input = request.form["user_input"]
-        # headers = {"Authorization": f"Bearer {HUGGING_FACE_API_KEY}"}
-        # response = requests.post(
-        #    HUGGING_FACE_API_URL, headers=headers, json={"inputs": user_input}
-        # )
         result = mypipeline(user_input)
         to_return = postprocess_results(result, user_input)
 
