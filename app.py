@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 HUGGING_FACE_API_URL = "https://api-inference.huggingface.co/models/antoineedy/stanford-deidentifier-base-finetuned-ner"
 
-HUGGING_FACE_API_KEY = "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"
+HUGGING_FACE_API_KEY = "****"
 
 
 def postprocess_results(result, input):
