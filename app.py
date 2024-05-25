@@ -18,7 +18,13 @@ HUGGING_FACE_API_KEY = "****"
 
 
 def create_logs(result, input):
-
+    """
+    Takes the result of the pipeline and the input and creates a log entry.
+    The log will store:
+        - The date and time
+        - The input
+        - The output
+    """
     to_log = ""
 
     date = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -53,6 +59,10 @@ def create_logs(result, input):
 
 
 def postprocess_results(result, input):
+    """
+    Postprocess the results of the pipeline to create an HTML output.
+    This HTML output will be sent back to the frontend.
+    """
     if result == "Error: Could not process the request.":
         return "Error"
     to_return = ""

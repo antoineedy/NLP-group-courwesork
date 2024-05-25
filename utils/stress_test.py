@@ -1,11 +1,9 @@
-# %%
 import numpy as np
 import matplotlib.pyplot as plt
 import requests
 from copy import deepcopy
 
 
-# %%
 def get_output(sentence):
 
     if sentence == "":
@@ -63,7 +61,6 @@ def get_output(sentence):
     return d
 
 
-# %%
 from colorama import Fore, Back, Style
 
 
@@ -80,7 +77,6 @@ def print_in_color(sentence):
     print(Style.RESET_ALL)
 
 
-# %%
 def tests():
     # Test 1
     print("-----> Test 1: special characters")

@@ -66,11 +66,11 @@ TEXT2ID = {
 
 datasets = datasets.map(lambda x: {"ner_tags": [TEXT2ID[tag] for tag in x["ner_tags"]]})
 
-# %%
+
 label_list = list(set(datasets["train"]["ner_tags"][0]))
 label_list
 
-# %%
+
 from datasets import ClassLabel, Sequence
 import random
 import pandas as pd
@@ -99,21 +99,19 @@ def show_random_elements(dataset, num_examples=10):
     display(HTML(df.to_html()))
 
 
-# %%
 from transformers import AutoTokenizer
 
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, add_prefix_space=True)
 
-# %%
+
 import transformers
 
 assert isinstance(tokenizer, transformers.PreTrainedTokenizerFast)
 
-# %%
+
 label_all_tokens = True
 
 
-# %%
 def tokenize_and_align_labels(examples):
     tokenized_inputs = tokenizer(
         examples["tokens"], truncation=True, is_split_into_words=True
@@ -144,17 +142,16 @@ def tokenize_and_align_labels(examples):
     return tokenized_inputs
 
 
-# %%
 tokenized_datasets = datasets.map(tokenize_and_align_labels, batched=True)
 
-# %%
+
 from transformers import AutoModelForTokenClassification, TrainingArguments, Trainer
 
 model = AutoModelForTokenClassification.from_pretrained(
     model_checkpoint, num_labels=len(label_list), ignore_mismatched_sizes=True
 )
 
-# %%
+
 model_name = model_checkpoint.split("/")[-1]
 
 args = TrainingArguments(
@@ -168,25 +165,25 @@ args = TrainingArguments(
     push_to_hub=True,
 )
 
-# %%
+
 from transformers import DataCollatorForTokenClassification
 
 data_collator = DataCollatorForTokenClassification(tokenizer)
 
-# %%
+
 metric = load_metric("seqeval")
 
-# %%
+
 example = datasets["train"][0]
 tokenized_input = tokenizer(example["tokens"], is_split_into_words=True)
 tokens = tokenizer.convert_ids_to_tokens(tokenized_input["input_ids"])
 tokens
 
-# %%
+
 labels = [label_list[i] for i in example[f"ner_tags"]]
 metric.compute(predictions=[labels], references=[labels])
 
-# %%
+
 import numpy as np
 
 
@@ -248,7 +245,6 @@ def compute_metrics(p):
     return out
 
 
-# %%
 import torch
 from torch import nn
 
@@ -275,13 +271,13 @@ trainer = CustomTrainer(
     compute_metrics=compute_metrics,
 )
 
-# %%
+
 trainer.train()
 
-# %%
+
 trainer.evaluate()
 
-# %%
+
 predictions, labels, _ = trainer.predict(tokenized_datasets["validation"])
 predictions = np.argmax(predictions, axis=2)
 
@@ -298,7 +294,7 @@ true_labels = [
 results = metric.compute(predictions=true_predictions, references=true_labels)
 results
 
-# %%
+
 print(true_labels)
 
 labels = []
@@ -314,7 +310,7 @@ labels = [ID2TEXT[k] for k in labels]
 pred = [ID2TEXT[k] for k in pred]
 print(labels)
 
-# %%
+
 # confusion matrix
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix

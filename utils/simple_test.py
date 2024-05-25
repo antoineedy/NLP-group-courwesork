@@ -144,16 +144,13 @@ def find_tokens_to_merge(mine, theirs):
     return merged_indices
 
 
-# %%
 from datasets import load_dataset
 
 dataset = load_dataset("surrey-nlp/PLOD-CW")
 
-# %%
 test_dataset = dataset["test"]
 
 
-# %%
 def compare(test_dataset):
     pred, true = [], []
     for i, instance in enumerate(test_dataset):
@@ -172,10 +169,8 @@ def compare(test_dataset):
     return pred, true
 
 
-# %%
 pred, true = compare(test_dataset)
 
-# %%
 # when I-LF, put B-LF
 for i in range(len(pred)):
     if pred[i] == "I-LF":

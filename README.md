@@ -15,7 +15,7 @@ Module leader:
 
 __This repository contains the following files:__
 - `app.py`: Main file to run the web-app using Flask
-- `deploy.py`: Deploy the app on a server
+- `deploy.py`: Deploy the app locally (with or without Docker)
 - `Dockerfile`: Dockerfile to create a docker image
 - `log.txt`: Log file
 - `requirements.txt`: The list of required packages
